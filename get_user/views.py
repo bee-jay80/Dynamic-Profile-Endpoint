@@ -5,6 +5,12 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework import status, viewsets
 
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+
+
 try:
     import requests
 except Exception:  # pragma: no cover - fallback to urllib if requests not installed
@@ -17,8 +23,8 @@ class UserViewSet(viewsets.ViewSet):
     def list(self, request):
         """Return profile JSON with dynamic UTC timestamp and a cat fact fetched from external API."""
         user = {
-            "email": "johnbright081132@gmail.com",
-            "name": "John Bright",
+            "email": os.getenv("MY_EMAIL"),
+            "name": os.getenv("MY_NAME"),
             "stack": "Python/Django",
         }
 
