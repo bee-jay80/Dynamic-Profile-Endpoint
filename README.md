@@ -9,6 +9,14 @@ Small Django project that exposes a single endpoint, `/me`, which returns a JSON
 
 This README covers quick setup, installation, running, testing instructions for Windows using bash, and how to use a `.env` file.
 
+Documentation
+-------------
+
+Interactive documentation is hosted on GitHub Pages:
+
+https://bee-jay80.github.io/Dynamic-Profile-Endpoint/
+
+
 Prerequisites
 - Python 3.10+ installed and available on PATH
 - Git (optional)
