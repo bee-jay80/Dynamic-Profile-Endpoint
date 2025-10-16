@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Dynamic Profile Endpoint — Documentation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --bg: #f5f7fa;
+        --card: #ffffff;
+        --muted: #374151;
+        --accent: #1a73e8;
+        --radius: 12px;
+        --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Segoe UI Mono", "Noto Mono", monospace;
+      }
+
+      html, body {
+        height: 100%;
+        margin: 0;
+        font-family: 'Google Sans Display', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+        background: var(--bg);
+        color: #111827;
+      }
+
+      .container { max-width: 1000px; margin: 36px auto; padding: 24px; }
+
+      .header { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+      .logo {
+        width: 56px; height: 56px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #1a73e8, #8ab4f8);
+        display: flex; align-items: center; justify-content: center;
+        color: white; font-weight: 700; font-size: 20px;
+      }
+
+      h1 { margin: 0; font-size: 24px; }
+      p.lead { color: #4b5563; margin: 6px 0 18px; }
+
+      .grid { display: grid; grid-template-columns: 1fr 340px; gap: 24px; }
+      @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+
+      .card {
+        background: var(--card);
+        border-radius: var(--radius);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+        padding: 20px;
+      }
+
+      .section-title { display: flex; justify-content: space-between; align-items: center; }
+      .muted { color: #6b7280; font-size: 13px; }
+
+      pre {
+        background: #1e293b;
+        color: #e2e8f0;
+        padding: 16px;
+        border-radius: 10px;
+        overflow-x: auto;
+        font-size: 14px;
+        line-height: 1.6;
+        margin-top: 10px;
+        position: relative;
+      }
+
+      code.inline {
+        background: #f3f4f6;
+        padding: 3px 6px;
+        border-radius: 5px;
+        font-family: var(--mono);
+        color: #1f2937;
+      }
+
+      .copy-btn {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: #2563eb;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 12px;
+        padding: 4px 10px;
+        cursor: pointer;
+        opacity: 0.8;
+        transition: all 0.2s;
+      }
+
+      .copy-btn:hover { opacity: 1; }
+
+      .endpoint {
+        border-left: 4px solid var(--accent);
+        background: rgba(26,115,232,0.05);
+        padding: 14px;
+        border-radius: 8px;
+        margin: 12px 0;
+      }
+
+      .badge {
+        background: #e0ecff;
+        color: var(--accent);
+        padding: 5px 10px;
+        border-radius: 999px;
+        font-weight: 600;
+        font-size: 12px;
+      }
+
+      .field { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed #e5e7eb; }
+      .field:last-child { border-bottom: 0; }
+
+      ul.small { margin-left: 20px; padding-left: 0; list-style-type: disc; }
+      .small { font-size: 13.5px; color: #374151; }
+
+      footer { margin-top: 24px; text-align: center; color: #6b7280; font-size: 13px; }
+      a { color: var(--accent); text-decoration: none; }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="logo">DP</div>
+        <div>
+          <h1>Dynamic Profile Endpoint</h1>
+          <p class="lead">A small Django API endpoint that returns user info, a UTC timestamp, and a random cat fact 🐱.</p>
+        </div>
+      </div>
+
+      <div class="grid" style="margin-top:18px">
+        <main>
+          <section class="card">
+            <div class="section-title">
+              <strong>Project Overview</strong>
+              <span class="muted">Lightweight / Local-first</span>
+            </div>
+            <p class="small" style="margin-top:8px">
+              This project demonstrates API integration with <code class="inline">catfact.ninja</code>, dynamic timestamps, and graceful error handling using Django REST Framework.
+            </p>
+          </section>
+
+          <section class="card" style="margin-top:16px">
+            <div class="section-title"><strong>Endpoint</strong><span class="muted">GET /me</span></div>
+            <div class="endpoint">
+              <div style="display:flex;align-items:center;gap:14px">
+                <div class="badge">GET</div>
+                <div style="font-weight:600">/me</div>
+              </div>
+              <p class="small" style="margin-top:8px">
+                Returns your profile information combined with a dynamic UTC timestamp and a random cat fact fetched from the Cat Facts API.
+              </p>
+              <pre><button class="copy-btn">Copy</button><code>{
+  "status": "success",
+  "user": {
+    "email": "you@example.com",
+    "name": "Your Full Name",
+    "stack": "Python/Django"
+  },
+  "timestamp": "2025-10-16T12:34:56.789Z",
+  "fact": "A random cat fact string..."
+}</code></pre>
+            </div>
+
+            <div style="margin-top:12px">
+              <strong>Behavior & Error Handling</strong>
+              <ul class="small">
+                <li>Timestamp updates per request (UTC ISO 8601).</li>
+                <li>On API failure, a fallback cat fact string is returned.</li>
+                <li>Always returns <code class="inline">status: "success"</code> for predictable client-side usage.</li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="card" style="margin-top:16px">
+            <div class="section-title"><strong>External API</strong><span class="muted">catfact.ninja</span></div>
+            <pre><button class="copy-btn">Copy</button><code>GET https://catfact.ninja/fact
+Response:
+{ "fact": "Cats sleep 70% of their lives.", "length": 29 }</code></pre>
+          </section>
+
+          <section class="card" style="margin-top:16px">
+            <div class="section-title"><strong>Environment Variables</strong><span class="muted">.env</span></div>
+            <pre><button class="copy-btn">Copy</button><code>DEBUG=True
+SECRET_KEY=changeme_local
+CATFACT_TIMEOUT=2
+MY_EMAIL=you@example.com
+MY_NAME=Your Name
+MY_STACK=Python/Django</code></pre>
+          </section>
+        </main>
+
+        <aside>
+          <div class="card">
+            <div class="section-title"><strong>Quick Facts</strong><span class="muted">v1</span></div>
+            <div class="small" style="margin-top:12px">
+              <div class="field"><div>Framework</div><div>Django</div></div>
+              <div class="field"><div>Database</div><div>SQLite</div></div>
+              <div class="field"><div>External API</div><div>catfact.ninja</div></div>
+              <div class="field"><div>Default Port</div><div>8000</div></div>
+            </div>
+            <div style="margin-top:12px">
+              <div class="small" style="font-weight:600">Run Locally</div>
+              <pre><button class="copy-btn">Copy</button><code>python -m venv .venv
+source .venv/Scripts/activate
+pip install -r requirements.txt
+python manage.py runserver</code></pre>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:14px">
+            <strong>Notes</strong>
+            <p class="small" style="margin-top:8px">
+              For predictable tests, mock the external API. Keep secrets and API keys out of Git.
+            </p>
+          </div>
+        </aside>
+      </div>
+
+      <footer>Generated for <strong>Dynamic Profile Endpoint</strong> — Updated: 2025-10-16</footer>
+    </div>
+
+    <script>
+      // Copy button functionality for each code block
+      document.querySelectorAll('.copy-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const code = btn.nextElementSibling.innerText;
+          try {
+            await navigator.clipboard.writeText(code);
+            btn.textContent = "Copied!";
+            btn.style.background = "#16a34a";
+            setTimeout(() => {
+              btn.textContent = "Copy";
+              btn.style.background = "#2563eb";
+            }, 1500);
+          } catch {
+            btn.textContent = "Error";
+            btn.style.background = "#dc2626";
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
